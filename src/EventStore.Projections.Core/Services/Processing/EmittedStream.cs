@@ -41,7 +41,6 @@ namespace EventStore.Projections.Core.Services.Processing
         private bool _awaitingMetadataWriteCompleted;
         private bool _awaitingReady;
         private bool _awaitingListEventsCompleted;
-        private bool _started;
 
         private readonly int _maxWriteBatchLength;
         private CheckpointTag _lastCommittedOrSubmittedEventPosition; // TODO: rename
@@ -56,7 +55,6 @@ namespace EventStore.Projections.Core.Services.Processing
         private bool _recoveryCompleted;
         private Event _submittedWriteMetaStreamEvent;
         private const int MaxRetryCount = 5;
-
 
         public class WriterConfiguration
         {
@@ -177,25 +175,19 @@ namespace EventStore.Projections.Core.Services.Processing
             EnsureCheckpointNotRequested();
             foreach (var @event in events)
                 _pendingWrites.Enqueue(@event);
+        }
+
+        public void ProcessQueue()
+        {
             ProcessWrites();
         }
 
         public void Checkpoint()
         {
             EnsureCheckpointsEnabled();
-            EnsureStreamStarted();
             EnsureCheckpointNotRequested();
             _checkpointRequested = true;
             ProcessRequestedCheckpoint();
-        }
-
-        public void Start()
-        {
-            EnsureCheckpointNotRequested();
-            if (_started)
-                throw new InvalidOperationException("Stream is already started");
-            _started = true;
-            ProcessWrites();
         }
 
         public int GetWritePendingEvents()
@@ -387,7 +379,7 @@ namespace EventStore.Projections.Core.Services.Processing
 
         private void ProcessWrites()
         {
-            if (_started && !_awaitingListEventsCompleted && !_awaitingWriteCompleted
+            if (!_awaitingListEventsCompleted && !_awaitingWriteCompleted
                 && !_awaitingMetadataWriteCompleted && _pendingWrites.Count > 0)
             {
                 if (_lastCommittedOrSubmittedEventPosition == null)
@@ -611,16 +603,9 @@ namespace EventStore.Projections.Core.Services.Processing
                 throw new InvalidOperationException("Checkpoint requested");
         }
 
-        private void EnsureStreamStarted()
-        {
-            if (!_started)
-                throw new InvalidOperationException("Not started");
-        }
-
         private void OnWriteCompleted()
         {
             NotifyWriteCompleted();
-            ProcessWrites();
             ProcessRequestedCheckpoint();
         }
 
@@ -711,7 +696,6 @@ namespace EventStore.Projections.Core.Services.Processing
         {
             if (!_awaitingReady)
                 throw new InvalidOperationException("AwaitingReady state required");
-            ProcessWrites();
         }
     }
 
