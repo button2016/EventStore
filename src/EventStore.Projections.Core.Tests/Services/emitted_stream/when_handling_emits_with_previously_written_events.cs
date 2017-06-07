@@ -59,6 +59,7 @@ namespace EventStore.Projections.Core.Tests.Services.emitted_stream
                     new EmittedDataEvent(
                         "test_stream", Guid.NewGuid(), "type3", true, "data", null, CheckpointTag.FromPosition(0, 300, 250), null)
                 });
+            _stream.ProcessQueue();
             Assert.AreEqual(0, _readyHandler.HandledFailedMessages.Count);
             Assert.AreEqual(0, _consumer.HandledMessages.OfType<ClientMessage.WriteEvents>().Count());
         }
@@ -72,6 +73,7 @@ namespace EventStore.Projections.Core.Tests.Services.emitted_stream
                     new EmittedDataEvent(
                         "test_stream", Guid.NewGuid(), "type3", true, "data", null, CheckpointTag.FromPosition(0, 250, 220), null)
                 });
+            _stream.ProcessQueue();
             Assert.AreEqual(1, _readyHandler.HandledFailedMessages.Count);
             Assert.AreEqual(0, _consumer.HandledMessages.OfType<ClientMessage.WriteEvents>().Count());
         }
@@ -85,6 +87,7 @@ namespace EventStore.Projections.Core.Tests.Services.emitted_stream
                     new EmittedDataEvent(
                         "test_stream", Guid.NewGuid(), "type", true, "data", null, CheckpointTag.FromPosition(0, 400, 350), null)
                 });
+            _stream.ProcessQueue();
             Assert.AreEqual(1, _consumer.HandledMessages.OfType<ClientMessage.WriteEvents>().Count());
         }
 
@@ -97,6 +100,7 @@ namespace EventStore.Projections.Core.Tests.Services.emitted_stream
                     new EmittedDataEvent(
                         "test_stream", Guid.NewGuid(), "type2", true, "data", null, CheckpointTag.FromPosition(0, 200, 150), null)
                 });
+            _stream.ProcessQueue();
             Assert.AreEqual(1, _readyHandler.HandledWriteCompletedMessage.Count);
         }
 
@@ -111,6 +115,7 @@ namespace EventStore.Projections.Core.Tests.Services.emitted_stream
                         (string) "test_stream", Guid.NewGuid(), (string) "type2", (bool) true,
                         (string) "data", (ExtraMetaData) null, CheckpointTag.FromPosition(0, 200, 150), (CheckpointTag) null, v => eventNumber = v)
                 });
+            _stream.ProcessQueue();
             Assert.AreEqual(1, eventNumber);
         }
 
@@ -123,6 +128,7 @@ namespace EventStore.Projections.Core.Tests.Services.emitted_stream
                     new EmittedDataEvent(
                         "test_stream", Guid.NewGuid(), "type", true, "data", null, CheckpointTag.FromPosition(0, 400, 350), null)
                 });
+            _stream.ProcessQueue();
             OneWriteCompletes();
             Assert.IsTrue(_readyHandler.HandledWriteCompletedMessage.Any(v => v.StreamId == "test_stream"));
                 // more than one is ok
@@ -139,6 +145,7 @@ namespace EventStore.Projections.Core.Tests.Services.emitted_stream
                         (string) "test_stream", Guid.NewGuid(), (string) "type", (bool) true,
                         (string) "data", (ExtraMetaData) null, CheckpointTag.FromPosition(0, 400, 350), (CheckpointTag) null, v => eventNumber = v)
                 });
+            _stream.ProcessQueue();
             OneWriteCompletes();
             Assert.AreEqual(3, eventNumber);
         }
