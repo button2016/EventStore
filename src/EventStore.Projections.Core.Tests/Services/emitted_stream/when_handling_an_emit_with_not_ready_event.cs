@@ -40,6 +40,7 @@ namespace EventStore.Projections.Core.Tests.Services.emitted_stream
                     new EmittedLinkTo(
                         "test_stream", Guid.NewGuid(), "other_stream", CheckpointTag.FromPosition(0, 1100, 1000), null)
                 });
+            _stream.ProcessQueue();
             Assert.AreEqual(1, _readyHandler.HandledStreamAwaitingMessage.Count);
             Assert.AreEqual("test_stream", _readyHandler.HandledStreamAwaitingMessage[0].StreamId);
         }
@@ -50,8 +51,10 @@ namespace EventStore.Projections.Core.Tests.Services.emitted_stream
             var linkTo = new EmittedLinkTo(
                 "test_stream", Guid.NewGuid(), "other_stream", CheckpointTag.FromPosition(0, 1100, 1000), null);
             _stream.EmitEvents(new[] {linkTo});
+            _stream.ProcessQueue();
             linkTo.SetTargetEventNumber(1);
             _stream.Handle(new CoreProjectionProcessingMessage.EmittedStreamWriteCompleted("other_stream"));
+            _stream.ProcessQueue();
 
             Assert.AreEqual(1, _readyHandler.HandledStreamAwaitingMessage.Count);
             Assert.AreEqual(
@@ -67,7 +70,9 @@ namespace EventStore.Projections.Core.Tests.Services.emitted_stream
             var linkTo = new EmittedLinkTo(
                 "test_stream", Guid.NewGuid(), "other_stream", CheckpointTag.FromPosition(0, 1100, 1000), null);
             _stream.EmitEvents(new[] {linkTo});
+            _stream.ProcessQueue();
             _stream.Handle(new CoreProjectionProcessingMessage.EmittedStreamWriteCompleted("one_more_stream"));
+            _stream.ProcessQueue();
 
             Assert.AreEqual(2, _readyHandler.HandledStreamAwaitingMessage.Count);
             Assert.AreEqual("test_stream", _readyHandler.HandledStreamAwaitingMessage[0].StreamId);
