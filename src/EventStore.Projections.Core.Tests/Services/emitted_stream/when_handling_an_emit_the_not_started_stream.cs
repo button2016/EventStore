@@ -8,6 +8,7 @@ using NUnit.Framework;
 namespace EventStore.Projections.Core.Tests.Services.emitted_stream
 {
     [TestFixture]
+    [Ignore("EmittedStream.Start() was removed from the EmittedStream API")]
     public class when_handling_an_emit_the_not_started_stream : TestFixtureWithExistingEvents
     {
         private EmittedStream _stream;
