@@ -30,7 +30,7 @@ namespace EventStore.Projections.Core.Tests.Services.emitted_stream
                 "test_stream", new EmittedStream.WriterConfiguration(new EmittedStream.WriterConfiguration.StreamMetadata(), _writeAs, maxWriteBatchLength: 50),
                 new ProjectionVersion(1, 0, 0), new TransactionFilePositionTagger(0), CheckpointTag.FromPosition(0, 40, 30),
                 _ioDispatcher, _readyHandler);
-            _stream.Start();
+            /*_stream.Start(); --Removed from the EmittedStream API*/
 
             _stream.EmitEvents(
                 new[]

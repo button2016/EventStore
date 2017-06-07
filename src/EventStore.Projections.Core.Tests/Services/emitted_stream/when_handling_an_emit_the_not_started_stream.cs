@@ -45,7 +45,7 @@ namespace EventStore.Projections.Core.Tests.Services.emitted_stream
         [Test]
         public void publishes_write_events_when_started()
         {
-            _stream.Start();
+            /*_stream.Start(); --Removed from the EmittedStream API*/
             Assert.AreEqual(1, _consumer.HandledMessages.OfType<ClientMessage.WriteEvents>().Count());
         }
     }

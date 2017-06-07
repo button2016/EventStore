@@ -45,7 +45,7 @@ namespace EventStore.Projections.Core.Tests.Services.emitted_stream.another_epoc
                 "test_stream", new EmittedStream.WriterConfiguration(new EmittedStream.WriterConfiguration.StreamMetadata(), null, maxWriteBatchLength: 50),
                 new ProjectionVersion(1, 2, 2), new TransactionFilePositionTagger(0), CheckpointTag.Empty,
                 _ioDispatcher, _readyHandler);
-            _stream.Start();
+            /*_stream.Start(); --Removed from the EmittedStream API*/
             _stream.EmitEvents(CreateEventBatch());
 
             CompleteWriteWithResult(OperationResult.CommitTimeout);

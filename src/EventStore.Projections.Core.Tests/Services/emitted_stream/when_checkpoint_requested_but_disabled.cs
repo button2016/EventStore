@@ -21,7 +21,7 @@ namespace EventStore.Projections.Core.Tests.Services.emitted_stream
                 "test", new EmittedStream.WriterConfiguration(new EmittedStream.WriterConfiguration.StreamMetadata(), null, 50), new ProjectionVersion(1, 0, 0),
                 new TransactionFilePositionTagger(0), CheckpointTag.FromPosition(0, 0, -1), _ioDispatcher, _readyHandler,
                 noCheckpoints: true);
-            _stream.Start();
+            /*_stream.Start(); --Removed from the EmittedStream API*/
             try
             {
                 _stream.Checkpoint();
