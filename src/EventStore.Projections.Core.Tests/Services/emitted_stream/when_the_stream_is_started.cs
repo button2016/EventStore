@@ -8,24 +8,25 @@ namespace EventStore.Projections.Core.Tests.Services.emitted_stream
     [TestFixture]
     public class when_the_stream_is_started : TestFixtureWithReadWriteDispatchers
     {
-        private EmittedStream _stream;
-        private TestCheckpointManagerMessageHandler _readyHandler;
+        //Invalid as the start has been removed
+        //private EmittedStream _stream;
+        //private TestCheckpointManagerMessageHandler _readyHandler;
 
-        [SetUp]
-        public void setup()
-        {
-            _readyHandler = new TestCheckpointManagerMessageHandler();
-            _stream = new EmittedStream(
-                "test", new EmittedStream.WriterConfiguration(new EmittedStream.WriterConfiguration.StreamMetadata(), null, 50), new ProjectionVersion(1, 0, 0),
-                new TransactionFilePositionTagger(0), CheckpointTag.FromPosition(0, 0, -1), _ioDispatcher, _readyHandler);
-            ;
-            /*_stream.Start(); --Removed from the EmittedStream API*/
-        }
+        //[SetUp]
+        //public void setup()
+        //{
+        //    _readyHandler = new TestCheckpointManagerMessageHandler();
+        //    _stream = new EmittedStream(
+        //        "test", new EmittedStream.WriterConfiguration(new EmittedStream.WriterConfiguration.StreamMetadata(), null, 50), new ProjectionVersion(1, 0, 0),
+        //        new TransactionFilePositionTagger(0), CheckpointTag.FromPosition(0, 0, -1), _ioDispatcher, _readyHandler);
+        //    ;
+        //    /*_stream.Start(); --Removed from the EmittedStream API*/
+        //}
 
-        [Test]
-        public void start_throws_invalid_operation_exception()
-        {
-            Assert.Throws<InvalidOperationException>(()=> { /*_stream.Start(); --Removed from the EmittedStream API*/ });
-        }
+        //[Test]
+        //public void start_throws_invalid_operation_exception()
+        //{
+        //    Assert.Throws<InvalidOperationException>(()=> { /*_stream.Start(); --Removed from the EmittedStream API*/ });
+        //}
     }
 }
