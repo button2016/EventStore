@@ -47,6 +47,7 @@ namespace EventStore.Projections.Core.Tests.Services.emitted_stream
                 _ioDispatcher, _readyHandler);
             /*_stream.Start(); --Removed from the EmittedStream API*/
             _stream.EmitEvents(new[] {_emittedDataEvent});
+            _stream.ProcessQueue();
         }
 
 
