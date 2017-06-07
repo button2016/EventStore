@@ -122,7 +122,7 @@
     <Compile Include="Services\checkpoint_tag\checkpoint_tag_by_catalog_stream.cs" />
     <Compile Include="Services\core_projection\projection_checkpoint\when_emitting_events_with_null_streamId.cs" />
     <Compile Include="Services\core_service\when_a_subscribed_projection_handler_throws.cs" />
-    <Compile Include="Services\emitted_stream\when_handling_a_timeout.cs" />
+    <Compile Include="Services\emitted_stream\another_epoch\when_handling_a_timeout.cs" />
     <Compile Include="Services\event_reader\heading_event_reader\when_the_heading_event_reader_with_a_subscribed_projection_handles_a_cached_event_and_throws.cs" />
     <Compile Include="Services\event_reader\heading_event_reader\when_the_heading_event_reader_with_a_subscribed_projection_handles_a_live_event_and_throws.cs" />
     <Compile Include="Services\projections_manager\when_deleting_a_system_projection.cs" />
@@ -570,6 +570,9 @@
   <ItemGroup>
     <Folder Include="Services\checkpoint_strategy\" />
     <Folder Include="Services\projections_manager\parallel_query\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

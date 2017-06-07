@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace EventStore.Projections.Core.Tests.Services.emitted_stream
 {
-    [TestFixture]
+    [TestFixture, Ignore("Now covered by the the_non_started_checkpoint test")]
     public class a_checkpoint_requested_on_a_non_started_stream : TestFixtureWithReadWriteDispatchers
     {
         private EmittedStream _stream;

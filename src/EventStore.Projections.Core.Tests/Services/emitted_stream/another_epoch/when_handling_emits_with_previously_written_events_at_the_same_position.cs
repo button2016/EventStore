@@ -57,6 +57,7 @@ namespace EventStore.Projections.Core.Tests.Services.emitted_stream.another_epoc
                 _ioDispatcher, _readyHandler);
             /*_stream.Start(); --Removed from the EmittedStream API*/
             _stream.EmitEvents(CreateEventBatch());
+            _stream.ProcessQueue();
             OneWriteCompletes();
         }
 
